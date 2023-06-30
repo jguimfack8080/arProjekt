@@ -180,8 +180,7 @@ class _LobbyPageState extends State<LobbyPage> {
   }
 
   Future<void> joinLobby(BuildContext context) async {
-    final url = Uri.parse(
-        'http://195.37.49.58:8080/ar-23-backend/api/battleship/enter');
+    final url = Uri.parse('http://195.37.49.58:8080/ar-23-backend/api/battleship/enter');
     final headers = {'Content-Type': 'application/json'};
     final username = usernameController.text.trim();
 
@@ -203,25 +202,18 @@ class _LobbyPageState extends State<LobbyPage> {
       final socketURL = responseData['socketURL'];
 
       final WebSocketChannel channel = IOWebSocketChannel.connect(socketURL);
-      int totalPoints = 0; // Variable pour stocker le total des points
 
       channel.stream.listen((message) {
         setState(() {
           messages.add(message);
           final Map<String, dynamic> data = jsonDecode(message);
           if (data.containsKey('points')) {
-            final int pointsReceived = data['points'];
-            final String appIdServer = data['appId'];
-
-            if (appIdServer == appId) {
-              totalPoints += pointsReceived;
-              log('Points reçus : $pointsReceived');
-              log('Total des points : $totalPoints');
-            } else {
-              log('L\'appId renvoyé par le serveur ne correspond pas à l\'appId de l\'utilisateur');
-            }
+            points = data['points'];
+            log('Points: $points');
           }
         });
+      
+      
       });
 
       print('Erfolgreich der Lobby ${widget.lobbyName} beigetreten.');

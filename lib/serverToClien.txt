@@ -1,0 +1,63 @@
+Voici les differentes reponses possibles que le serveur peut renvoyer:server_to_clients_hit.json
+ {
+    "action": "hit",
+    "appId": "<UUIDv4>",
+    "row": 4,
+    "column": 4,
+    "stateId": 35,
+    "points": 100
+}                                                                                                                                                                                                           server_to_clients_miss.json: {
+    "action": "miss",
+    "appId": "<UUIDv4>",
+    "row": 4,
+    "column": 5,
+    "stateId": 37
+}                                                                                                                                                                                                                      server_to_clients_playerTurn.json: {
+    "action": "currentPlayerResponse",
+    "appId": "<UUIDv4>",
+    "waiting": false
+}                                                                                                                                                                                                           server_to_clients_playerTurn_beforePlayer2Joins.json:                                                                                                     {
+    "action": "currentPlayerResponse",
+    "appId": "<UUIDv4>",
+    "waiting": true
+}                                                                                                                                                                                                                      server_to_clients_states.json:                                  {
+    "action": "statesResponse",
+    "stateId": 37,
+    "states": [
+        {
+            "action": "hit",
+            "appId": "<UUIDv4>",
+            "row": 4,
+            "column": 4,
+            "stateId": 35
+        },
+        {
+            "action": "sunken",
+            "appId": "<UUIDv4>",
+            "row": 4,
+            "column": 4,
+            "horizontal": false,
+            "stateId": 36
+        },
+        {
+            "action": "miss",
+            "appId": "<UUIDv4>",
+            "row": 4,
+            "column": 5,
+            "stateId": 37
+        }
+    ]
+}                                                                                                                                                                                                                         server_to_clients_sunken.json: {
+    "action": "sunken",
+    "appId": "<UUIDv4>",
+    "row": 4,
+    "column": 4,
+    "size": 4,
+    "horizontal": false,
+    "stateId": 36,
+    "points": 200
+}                                                                                                                                                                                                                  server_to_clients_win.json: {
+    "action": "win",
+    "appId": "<UUIDv4>",
+    "stateId": 36
+}                                                                                      

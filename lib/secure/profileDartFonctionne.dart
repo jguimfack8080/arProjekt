@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ar_project_app/username.dart';
 import 'package:uuid/uuid.dart';
-
+import 'dart:developer';
+import 'package:web_socket_channel/io.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
+import 'dart:convert';
 
 void main() {
   runApp(MyApp());
@@ -29,16 +32,45 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late SharedPreferences _preferences;
   bool _isUsernameEmpty = false;
 
+  final WebSocketChannel channel = IOWebSocketChannel.connect(
+      'ws://195.37.49.58:8080/ar-23-backend/api/battleship/socket/Test3');
+  List<String> messages = [];
+  int points = 0;
+  String action = '';
+  int row = 0;
+
   @override
   void initState() {
     super.initState();
     _usernameController = TextEditingController();
     _loadPreferences();
+    channel.stream.listen((message) {
+      setState(() {
+        messages.add(message);
+        final Map<String, dynamic> data = jsonDecode(message);
+        action = data['action'] ?? '';
+        
+        // Update points if the server response contains "points"
+        if (data.containsKey('points')) {
+          points = data['points'];
+          
+        }
+
+        // Update row if the server response contains "row"
+        if (data.containsKey('row')) {
+          row = data['row'];
+        }
+
+        _saveAction(action); // Save the action to Shared Preferences
+      });
+      log('Message received from server: $message');
+    });
   }
 
   @override
   void dispose() {
     _usernameController.dispose();
+    channel.sink.close();
     super.dispose();
   }
 
@@ -55,6 +87,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
           _usernameController.text = savedUsername;
         });
       }
+    }
+
+    // Load the saved action from Shared Preferences
+    String? savedAction = _preferences.getString('action');
+    if (savedAction != null) {
+      setState(() {
+        action = savedAction;
+      });
     }
   }
 
@@ -82,6 +122,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     } else {
       _saveUsername(username);
     }
+  }
+
+
+  Future<void> _saveAction(String action) async {
+    await _preferences.setString('action', action);
   }
 
   @override
@@ -119,8 +164,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
               style: TextStyle(fontSize: 18),
             ),
             Text(
-              ' Points: ',
+              'Points: $points',
               style: TextStyle(fontSize: 18),
+            ),
+            Text(
+              'Action: $action',
+              style: TextStyle(fontSize: 18),
+            ),
+            Text(
+              'Row: $row',
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(height: 16),
+            Expanded(
+              child: ListView.builder(
+                itemCount: messages.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(messages[index]),
+                  );
+                },
+              ),
             ),
           ],
         ),

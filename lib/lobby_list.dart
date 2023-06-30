@@ -11,12 +11,12 @@ class LobbyPageList extends StatefulWidget {
 }
 
 class _LobbyPageListState extends State<LobbyPageList> {
-  List<Lobby> lobbyList = []; 
+  List<Lobby> lobbyList = [];
 
   @override
   void initState() {
     super.initState();
-    fetchLobbyList(); 
+    fetchLobbyList();
   }
 
   @override
@@ -79,20 +79,24 @@ class _LobbyPageListState extends State<LobbyPageList> {
 
   Future<void> fetchLobbyList() async {
     final url = Uri.parse('http://195.37.49.58:8080/ar-23-backend/api/battleship/list');
-    final response = await http.get(url);
+    
+    try {
+      final response = await http.get(url);
 
-    if (response.statusCode == 200) {
-      final responseData = jsonDecode(response.body);
-      final List<dynamic> lobbyDataList = responseData as List<dynamic>;
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        final List<dynamic> lobbyDataList = responseData as List<dynamic>;
 
-      setState(() {
-        lobbyList = lobbyDataList
-            .map<Lobby>((lobbyData) => Lobby.fromJson(lobbyData))
-            .toList();
-      });
-    } else {
-      print(
-          'Fehler beim Abrufen der Lobbyliste. Statuscode: ${response.statusCode}');
+        setState(() {
+          lobbyList = lobbyDataList
+              .map<Lobby>((lobbyData) => Lobby.fromJson(lobbyData))
+              .toList();
+        });
+      } else {
+        print('Fehler beim Abrufen der Lobbyliste. Statuscode: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Fehler beim Verbinden mit dem Server: $e');
     }
   }
 }

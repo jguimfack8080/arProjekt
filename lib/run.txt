@@ -1,0 +1,47 @@
+curl -i -H 'Content-Type: application/json' -d '{
+  "lobbyName": "lob3",
+  "appId": "5851f9e8-903d-4232-bc4e-ecede6267fcd",
+  "ships": [
+    {"size": 2, "row": 0, "column": 0, "horizontal": true},
+    {"size": 2, "row": 1, "column": 0, "horizontal": true},
+    {"size": 2, "row": 3, "column": 0, "horizontal": true},
+    {"size": 2, "row": 4, "column": 0, "horizontal": true},
+    {"size": 3, "row": 5, "column": 0, "horizontal": true},
+    {"size": 3, "row": 6, "column": 0, "horizontal": true},
+    {"size": 3, "row": 7, "column": 0, "horizontal": true},
+    {"size": 4, "row": 8, "column": 0, "horizontal": true},
+    {"size": 4, "row": 9, "column": 0, "horizontal": true},
+    {"size": 5, "row": 0, "column": 8, "horizontal": false}
+  ]
+}' -X POST http://195.37.49.58:8080/ar-23-backend/api/battleship/place
+
+curl -i -H 'Content-Type: application/json' -d '{
+  "lobbyName": "lob3",
+  "appId": "096df1c2-ddd8-41e6-9c7b-571ddfe4a87a",
+  "ships": [
+    {"size": 2, "row": 0, "column": 0, "horizontal": true},
+    {"size": 2, "row": 1, "column": 0, "horizontal": true},
+    {"size": 2, "row": 3, "column": 0, "horizontal": true},
+    {"size": 2, "row": 4, "column": 0, "horizontal": true},
+    {"size": 3, "row": 5, "column": 0, "horizontal": true},
+    {"size": 3, "row": 6, "column": 0, "horizontal": true},
+    {"size": 3, "row": 7, "column": 0, "horizontal": true},
+    {"size": 4, "row": 8, "column": 0, "horizontal": true},
+    {"size": 4, "row": 9, "column": 0, "horizontal": true},
+    {"size": 5, "row": 0, "column": 8, "horizontal": false}
+  ]
+}' -X POST http://195.37.49.58:8080/ar-23-backend/api/battleship/place
+
+
+
+{"action": "shoot", "appId": "5851f9e8-903d-4232-bc4e-ecede6267fcd", "row": 0, "column": 1}
+
+{"action": "shoot", "appId": "5851f9e8-903d-4232-bc4e-ecede6267fcd", "row": 1, "column": 1}
+
+{"action": "shoot", "appId": "5851f9e8-903d-4232-bc4e-ecede6267fcd", "row": 1, "column": 0}
+
+{"action": "shoot", "appId": "5851f9e8-903d-4232-bc4e-ecede6267fcd", "row": 0, "column": 2}
+{"action": "shoot", "appId": "096df1c2-ddd8-41e6-9c7b-571ddfe4a87a", "row": 0, "column": 1}
+
+{"action": "statesRequest", "appId": "096df1c2-ddd8-41e6-9c7b-571ddfe4a87a"}
+
